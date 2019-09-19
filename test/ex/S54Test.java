@@ -93,4 +93,22 @@ class S54Test {
         assertThat(actual[1], is(2));
         assertThat(actual[2], is(3));
     }
+    @Test
+    void sortPlain2() {
+        int[] actual = S54.sort(1, 2, 3);
+
+        assertThat(actual.length, is(3));
+        assertThat(actual[0], is(1));
+        assertThat(actual[1], is(2));
+        assertThat(actual[2], is(3));
+    }
+    @Test
+    void sortPlain3() {
+        int[] actual = S54.sort(3, 1, 2);
+
+        assertThat(actual.length, is(3));
+        assertThat(actual[0], is(1));
+        assertThat(actual[1], is(2));
+        assertThat(actual[2], is(3));
+    }
 }

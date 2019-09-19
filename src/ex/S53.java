@@ -8,9 +8,11 @@ public class S53 {
      * @param time     in seconds
      * @return speed in meters per second
      */
+	
     public static double speed(double distance, double time) {
-        // TODO
-        return 0;
+       
+    double s= distance/time	;
+        return s;
     }
 
     /**
@@ -23,8 +25,10 @@ public class S53 {
      * @return distance
      */
     public static double distance(int x0, int y0, int x1, int y1) {
-        // TODO
-        return 0;
+       
+    	int dist1 = Math.abs(x0-x1);
+    	int dist2 = Math.abs(y0-y1)	;	
+        return Math.sqrt(Math.abs((dist1*dist1)+(dist2*dist2)));
     }
 
     /**
@@ -36,8 +40,9 @@ public class S53 {
      * @return the engine capacity in cm^3
      */
     public static double engineCapacity(double bore, double stroke, int nr) {
-        // TODO
-        return 0;
+      
+    	double var1 = Math.pow(bore/2, 2);
+        return  (Math.PI*stroke*nr*var1)/1000;
     }
 
     // somma delle cifre in un numero
@@ -49,6 +54,9 @@ public class S53 {
      */
     public static int digitSum(int value) {
         // TODO
-        return 0;
+    	int sum = 0;
+    		while (Math.abs(value)>0) {sum= sum + Math.abs(value)%10;
+    			value= Math.abs(value)/10;}
+        return Math.abs(sum); 
     }
 }
