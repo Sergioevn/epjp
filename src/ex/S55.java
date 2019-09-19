@@ -1,7 +1,5 @@
 package ex;
 
-import s037.Array2D;
-
 public class S55 {
 	/**
 	 * Add up all the numbers in the passed closed interval
@@ -32,7 +30,6 @@ public class S55 {
 	 * @return the sum of all the even numbers, or zero
 	 */
 	public static long evenSum(int first, int last) {
-		// TODO
 		if (first > last)
 			return 0;
 
@@ -53,18 +50,15 @@ public class S55 {
 	 * @return factorial of input value, or zero
 	 */
 	public static long factorial(int value) {
-		// TODO
 		if (value < 0)
 			return 0;
 
 		int sum = 1;
-		{
-			while (value > 0) {
-				sum = sum * value;
-				value -= 1;
-			}
-			return sum;
+		while (value > 0) {
+			sum *= value;
+			value -= 1;
 		}
+		return sum;
 	}
 
 	/**
@@ -100,8 +94,13 @@ public class S55 {
 	 */
 	public static int[][] multiplicationTable(int value) {
 		int[][] result = new int[value][value];
-		int i = 0;
-		while (i <= value) {result[i][i]=result[i+i][i+i] ;i++;}
-			return result ;
+		int i = 1;
+		int j = 1;
+		while (i <= value && j <= value) {
+			result[i - 1][j - 1] = i * j;
+			i++;
+			j++;
+		}
+		return result;
 	}
 }

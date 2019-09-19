@@ -1,6 +1,5 @@
 package ex;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -109,7 +108,7 @@ class S55Test {
 	@Test
 	void multiplicationTable() {
 		int[][] test = S55.multiplicationTable(5);
-		int row = test.length;
+		int row = test[0].length;
 		int columns = test[0].length;
 		assertThat(row, is(5));
 		assertThat(columns, is(5));
