@@ -5,7 +5,7 @@ public class Dog implements BarkAndWag {
     public String bark() {
         return "woof!";
     }
-
+//il secondo bark è un metodo completamente diverso dal primo perchè ha un parametro
     public String bark(int count) {
         StringBuilder sb = new StringBuilder();
 
