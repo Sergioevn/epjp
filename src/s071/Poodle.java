@@ -24,7 +24,7 @@ public class Poodle extends Dog {
 	
 	@Override
 	public String getName() {
-		return "Poodle " + getName();
+		return "Poodle " + super.getName();
 	}
 	
 	@Override
