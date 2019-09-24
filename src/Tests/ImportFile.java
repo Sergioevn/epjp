@@ -3,6 +3,7 @@ package Tests;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
 public class ImportFile {
 	public static void main(String[] args) throws IOException {
 		File f = new File("/Users/Administrator/Desktop/values.txt");
@@ -12,8 +13,8 @@ public class ImportFile {
 		while (scanner.hasNext()) {
 			if (scanner.hasNextInt()) {
 				int numin = scanner.nextInt();
-				if (numin == 0) 
-					break;
+				if (numin == 0) {
+					 System.out.println(numin + " found"); break;}
 
 				else if (numin % 2 > 0) {
 					System.out.println(numin + " is an odd number");
