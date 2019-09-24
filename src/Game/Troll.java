@@ -14,8 +14,12 @@ public class Troll extends Character {
 	public double Fight(Character obj) {
 		double random = Math.random() + 1;
 		double damage = (double) random * attack * 3;
-		return Math.round(damage);
+		if (obj instanceof Human) {
+			obj.hp -= Math.round(damage);
+		} else {
+			obj.hp -= obj.getBonusDef * Math.round(damage);
+
+		}return Math.round(damage);
 
 	}
-
 }
