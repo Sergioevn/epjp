@@ -1,6 +1,6 @@
 package linkedList;
 
-public class linkedList {
+public class MyList {
 	/*
 	 * / add to head get() -- from head, ritorna elemento finale to string()--
 	 * stampa collezione pop() -- removes tail no tail /
@@ -42,9 +42,22 @@ public class linkedList {
 		return size;
 	}
 
-	// Get
 	public int get() {
-		return head.getValue();
+		Node currentnode = head;
+		return currentnode.getValue();
+	}
+
+	// Get
+	public int get(int index) {
+		Node currentnode = head;
+		for (int i = 1; i <= index - 1; i++) {
+			currentnode = currentnode.getNextnode();
+		}
+		return currentnode.getValue();
+	}
+
+	public void pop() {
+		this.head = head.getNextnode();
 	}
 
 }

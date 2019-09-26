@@ -15,7 +15,7 @@ public static void main(String[] args) {
 	humanArray [3]= new Human("Umano2", 100, "Casata1", 1);
 	humanArray [4]= new Human("Umano1", 100, "Casata1", 1);
 while (humanArray[0].getHp()>0 && trollArray[0].getHp()>0) {
-System.out.println(trollArray[0].getName() + " attacks " + humanArray[0].getName() + " Damage: " + trollArray[0].Fight(humanArray[0]) + "\nHP Left:" + humanArray[0].printHP());   
+System.out.println(trollArray[0].getName() + " attacks " + humanArray[0].getName() + " Damage: " + trollArray[0].Fight(humanArray[0]) + "\n\n HP Left:" + humanArray[0].printHP());   
 System.out.println(humanArray[0].getName() + " attacks " + trollArray[0].getName() + " Damage: " + humanArray[0].Fight(trollArray[0]) + "\nHP Left:" + trollArray[0].printHP());}   
 
 }
