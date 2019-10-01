@@ -448,13 +448,6 @@ SELECT first_name, last_name, manager_id
 FROM employees
 WHERE manager_id=(SELECT manager_id FROM employees WHERE last_name='Ozer' AND first_name='Lisa');
 
-SELECT E.first_name, E.last_name, D.department_id 
-FROM employees E JOIN departments D
-USING(department_id)
-GROUP BY D.department_id
-WHERE COUNT(WHERE UPPER(E.last_name) LIKE '%U%')>0;
-
-
 SELECT E.first_name, E.last_name, E.department_id
 FROM employees E 
 WHERE department_id IN (SELECT DISTINCT department_id
@@ -478,6 +471,16 @@ from employees e join employees m
 on (e.manager_id=m.employee_id)
 where m.first_name='Steven' and m.last_name='King'
 order by 1;
+
+update regions
+set region_name = 'Region ' || region_id
+where region_id > 10;
+
+delete from regions
+where region_id > 10;
+
+insert into regions(region_id, region_name)
+values (1, 'Antarctica');
 
 
 
