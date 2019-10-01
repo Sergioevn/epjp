@@ -200,253 +200,273 @@ SELECT street_address
 FROM locations
 WHERE postal_code IS NULL OR postal_code NOT LIKE '0%';
 
-select region_name 
-from regions 
-where region_id = 1;
+SELECT region_name 
+FROM regions 
+WHERE region_id = 1;
 
-select country_name
-from countries 
-where region_id = 1;
+SELECT country_name
+FROM countries 
+WHERE region_id = 1;
 
-select country_name, region_name
-from regions, countries
-where regions.region_id = countries.region_id;
+SELECT country_name, region_name
+FROM regions, countries
+WHERE regions.region_id = countries.region_id;
 
-select r.region_name, c.country_name
-from regions r, countries c
-where r.region_id = c.region_id;
+SELECT R.region_name, C.country_name
+FROM regions R, countries C
+WHERE R.region_id = C.region_id;
 
-select country_name, region_name
-from regions join countries -- join è “inner” per default
-using(region_id)
-order by 1;
+SELECT country_name, region_name
+FROM regions JOIN countries -- join è “inner” per default
+USING(region_id)
+ORDER BY 1;
 
-select country_name, region_name 
-from regions natural join countries
-order by 1;
+SELECT country_name, region_name 
+FROM regions NATURAL JOIN countries
+ORDER BY 1;
 
-select region_name, country_name
-from regions r join countries c
-on(r.region_id = c.region_id);
+SELECT region_name, country_name
+FROM regions R JOIN countries C
+ON(R.region_id = C.region_id);
 
-select e.last_name as employee, m.last_name as manager
-from employees e join employees m
-on (e.manager_id = m.employee_id)
-order by 1;
+SELECT E.last_name AS employee, M.last_name AS MANAGER
+FROM employees E JOIN employees M
+ON (E.manager_id = M.employee_id)
+ORDER BY 1;
 
 -----Back to the lesson-----
 SELECT country_name, region_name
-FROM COUNTRIES, REGIONS
-WHERE regions.region_id = countries.REGION_ID AND countries.REGION_ID = 2
-ORDER BY COUNTRY_NAME
+FROM countries, regions
+WHERE regions.region_id = countries.region_id AND countries.region_id = 2
+ORDER BY country_name
 ;
 SELECT country_name, region_name
-FROM regions JOIN COUNTRIES
+FROM regions JOIN countries
 USING (region_id)
 ORDER BY 1
 ;
 SELECT region_name, country_name
-FROM regions, COUNTRIES
+FROM regions, countries
 ;
-SELECT employee_id, first_name, LAST_NAME, city, department_name
-FROM EMPLOYEES JOIN DEPARTMENTS USING(DEPARTMENT_id) JOIN LOCATIONS USING(LOCATION_id)
+SELECT employee_id, first_name, last_name, city, department_name
+FROM employees JOIN departments USING(department_id) JOIN locations USING(location_id)
 ;
-select e.last_name, e.salary, j.min_salary
-from employees e join jobs j
-on(e.salary between j.min_salary and j.min_salary + 100)
-where(e.job_id = j.job_id)
+SELECT E.last_name, E.salary, j.min_salary
+FROM employees E JOIN jobs j
+ON(E.salary BETWEEN j.min_salary AND j.min_salary + 100)
+WHERE(E.job_id = j.job_id)
 ;
-select first_name, last_name, DEPARTMENT_ID, department_name
-from employees right outer join departments
-using(department_id)
-where department_id between 110 and 120
+SELECT first_name, last_name, department_id, department_name
+FROM employees RIGHT OUTER JOIN departments
+USING(department_id)
+WHERE department_id BETWEEN 110 AND 120
 ;
-select e.last_name, d.department_name
-from employees e full outer join departments d
-on (e.department_id = d.department_id)
-where last_name = 'Grant'
-or d.department_id between 110 and 120
+SELECT E.last_name, D.department_name
+FROM employees E FULL OUTER JOIN departments D
+ON (E.department_id = D.department_id)
+WHERE last_name = 'Grant'
+OR D.department_id BETWEEN 110 AND 120
 ;
 -----Exercises-----
 --1
-SELECT first_name, LAST_NAME, department_name
-FROM EMPLOYEES JOIN DEPARTMENTS
-using(department_id)
+SELECT first_name, last_name, department_name
+FROM employees JOIN departments
+USING(department_id)
 ;
 --2
-SELECT first_name, LAST_NAME, job_title
-FROM EMPLOYEES JOIN JOBS
+SELECT first_name, last_name, job_title
+FROM employees JOIN jobs
 USING (job_id)
 ;
 --3
-SELECT FIRST_NAME, LAST_NAME, SALARY
-FROM EMPLOYEES e JOIN JOBS j
+SELECT first_name, last_name, salary
+FROM employees E JOIN jobs j
 USING (job_id)
-WHERE e.SALARY = j.MIN_SALARY OR e.SALARY = j.MAX_SALARY
+WHERE E.salary = j.min_salary OR E.salary = j.max_salary
 ;
 --4
-SELECT FIRST_NAME, LAST_NAME, l.COUNTRY_ID
-FROM EMPLOYEES e JOIN DEPARTMENTS d USING (DEPARTMENT_id)
-JOIN LOCATIONS l USING (location_id)
-WHERE l.COUNTRY_ID = 'UK'
+SELECT first_name, last_name, L.country_id
+FROM employees E JOIN departments D USING (department_id)
+JOIN locations L USING (location_id)
+WHERE L.country_id = 'UK'
 ;
 --5
-SELECT DEPARTMENT_NAME, first_name
-FROM DEPARTMENTS d LEFT OUTER JOIN EMPLOYEES e ON (d.MANAGER_ID=e.EMPLOYEE_ID)
+SELECT department_name, first_name
+FROM departments D LEFT OUTER JOIN employees E ON (D.manager_id=E.employee_id)
 ;
 --6
-SELECT DEPARTMENT_NAME, first_name
-FROM DEPARTMENTS d JOIN EMPLOYEES e ON (d.MANAGER_ID=e.EMPLOYEE_ID)
+SELECT department_name, first_name
+FROM departments D JOIN employees E ON (D.manager_id=E.employee_id)
 ;
 --7
-SELECT DEPARTMENT_NAME
-FROM DEPARTMENTS
-WHERE MANAGER_ID IS null
+SELECT department_name
+FROM departments
+WHERE manager_id IS NULL
 ;
 --8
-SELECT e.FIRST_NAME AS "Employee", m.FIRST_NAME AS "Manager"
-FROM EMPLOYEES e JOIN EMPLOYEES m
-ON (e.MANAGER_ID = m.EMPLOYEE_ID)
+SELECT E.first_name AS "Employee", M.first_name AS "Manager"
+FROM employees E JOIN employees M
+ON (E.manager_id = M.employee_id)
 ;
 --9
-SELECT e.EMPLOYEE_ID, e.FIRST_NAME, e.LAST_NAME
-FROM EMPLOYEES e
-WHERE e.EMPLOYEE_ID NOT IN (SELECT NVL(MANAGER_ID,0) FROM EMPLOYEES)
+SELECT E.employee_id, E.first_name, E.last_name
+FROM employees E
+WHERE E.employee_id NOT IN (SELECT nvl(manager_id,0) FROM employees)
 ORDER BY 1
 ;
 --10 the 2005 one but WITH the trunc() FUNCTION
 -- to test the output format: SELECT trunc(hire_date, 'year') FROM EMPLOYEES;
-SELECT e.FIRST_NAME
-FROM EMPLOYEES e
-WHERE TRUNC(e.HIRE_DATE, 'year') = 2005-01-01 00:00:00
+SELECT E.first_name
+FROM employees E
+WHERE TRUNC(E.hire_date, 'year') = 2005-01-01 00:00:00
 ;
 
 --Exercises pag 46
 --1
-SELECT e.SALARY, e.SALARY*1.085 AS "+8,5%", e.SALARY*(1.085-1) AS DELTA
-FROM EMPLOYEES e;
+SELECT E.salary, E.salary*1.085 AS "+8,5%", E.salary*(1.085-1) AS delta
+FROM employees E;
 --2
 --extra: the same if it begin with A or a with the regexp_like function
-SELECT FIRST_NAME,last_name
-FROM EMPLOYEES
-WHERE REGEXP_LIKE(FIRST_NAME, '[Aa].*') OR REGEXP_LIKE (LAST_NAME, '[Aa].*')
+SELECT first_name,last_name
+FROM employees
+WHERE REGEXP_LIKE(first_name, '[Aa].*') OR REGEXP_LIKE (last_name, '[Aa].*')
 ORDER BY 1;
 --3
-SELECT e.FIRST_NAME,MONTHS_BETWEEN(SYSDATE,e.HIRE_DATE)
-FROM EMPLOYEES e
+SELECT E.first_name,months_between(sysdate,E.hire_date)
+FROM employees E
 ;
 --4
-SELECT e.FIRST_NAME, lpad('*', Floor(Salary/1000),'*') as Salary
-FROM EMPLOYEES e
+SELECT E.first_name, lpad('*', floor(salary/1000),'*') AS salary
+FROM employees E
 ;
 --5
-SELECT FIRST_NAME,Last_name,NVL(TO_CHAR(e.COMMISSION_PCT),'no value')
-FROM EMPLOYEES e
+SELECT first_name,last_name,nvl(to_char(E.commission_pct),'no value')
+FROM employees E
 ;
 
-select department_id, trunc(avg(salary))
-from employees
-group by department_id
-order by 1;
+SELECT department_id, TRUNC(AVG(salary))
+FROM employees
+GROUP BY department_id
+ORDER BY 1;
 
-select manager_id, trunc(avg(salary))
-from employees
-where salary < 8000
-group by manager_id
-having avg(salary) > 6000
-order by 2 desc;
+SELECT manager_id, TRUNC(AVG(salary))
+FROM employees
+WHERE salary < 8000
+GROUP BY manager_id
+HAVING AVG(salary) > 6000
+ORDER BY 2 DESC;
 
-select first_name, last_name from employees
-where employee_id = (select manager_id from employees where last_name = 'Chen');
+SELECT first_name, last_name FROM employees
+WHERE employee_id = (SELECT manager_id FROM employees WHERE last_name = 'Chen');
 
-select department_id, trunc(avg(salary)) from employees
-group by department_id having avg(salary) < (
-select max(avg(salary)) from employees group by department_id);
+SELECT department_id, TRUNC(AVG(salary)) FROM employees
+GROUP BY department_id HAVING AVG(salary) < (
+SELECT MAX(AVG(salary)) FROM employees GROUP BY department_id);
 
-select *
-from (select * from employees where employee_id between 112 and 115);
+SELECT *
+FROM (SELECT * FROM employees WHERE employee_id BETWEEN 112 AND 115);
 
-select first_name, last_name
-from employees
-where employee_id NOT IN (select NVL(manager_id,0) from employees);
+SELECT first_name, last_name
+FROM employees
+WHERE employee_id NOT IN (SELECT nvl(manager_id,0) FROM employees);
 
-select region_name, country_count
-from regions natural join (
-select region_id, count(rowid) country_count
-from countries
-group by region_id);
+SELECT region_name, country_count
+FROM regions NATURAL JOIN (
+SELECT region_id, COUNT(ROWID) country_count
+FROM countries
+GROUP BY region_id);
 
-select first_name, last_name from employees
-where employee_id in(
-select distinct manager_id
-from employees where manager_id is not null)
-order by 2;
+SELECT first_name, last_name FROM employees
+WHERE employee_id IN(
+SELECT DISTINCT manager_id
+FROM employees WHERE manager_id IS NOT NULL)
+ORDER BY 2;
 
 --Esercizi pag 53
-select MAX(salary) Max, MIN(salary) Min, SUM(salary) sum, round(AVG(salary)) avg  
-from employees;
+SELECT MAX(salary) MAX, MIN(salary) MIN, SUM(salary) SUM, round(AVG(salary)) AVG  
+FROM employees;
 
-select job_id, MAX(salary) Max, MIN(salary) Min, SUM(salary) sum, round(AVG(salary)) avg  
-from employees
-group by job_id;
+SELECT job_id, MAX(salary) MAX, MIN(salary) MIN, SUM(salary) SUM, round(AVG(salary)) AVG  
+FROM employees
+GROUP BY job_id;
 
-select job_id, COUNT(employee_id)
-from employees
-group by job_id;
+SELECT job_id, COUNT(employee_id)
+FROM employees
+GROUP BY job_id;
 
-select job_id, COUNT(employee_id)
-from employees
-where job_id='IT_PROG'
-group by job_id;
+SELECT job_id, COUNT(employee_id)
+FROM employees
+WHERE job_id='IT_PROG'
+GROUP BY job_id;
 
-select COUNT(DISTINCT(manager_id))
-from employees;
+SELECT COUNT(DISTINCT(manager_id))
+FROM employees;
 
-select (MAX(salary)- MIN(salary)) as Difference
-from employees;
+SELECT (MAX(salary)- MIN(salary)) AS difference
+FROM employees;
 
-select job_id, (MAX(salary)- MIN(salary)) as Difference
-from employees
-group by job_id
-having (MAX(salary)- MIN(salary))>0;
+SELECT job_id, (MAX(salary)- MIN(salary)) AS difference
+FROM employees
+GROUP BY job_id
+HAVING (MAX(salary)- MIN(salary))>0;
 
-select manager_id, MIN(salary)
-from employees
-where manager_id is not null
-group by manager_id
+SELECT manager_id, MIN(salary)
+FROM employees
+WHERE manager_id IS NOT NULL
+GROUP BY manager_id
 HAVING MIN(salary) > 6000
-order by 1;
+ORDER BY 1;
 
-select l.location_id, l.street_address, l.postal_code, l.city, l.state_province, c.country_name, c.country_name
-from locations l join countries c 
-using(country_id);
+SELECT L.location_id, L.street_address, L.postal_code, L.city, L.state_province, C.country_name, C.country_name
+FROM locations L JOIN countries C 
+USING(country_id);
 
-select e.first_name, e.last_name, d.department_name, 
+SELECT E.first_name, E.last_name, D.department_name, 
+FROM employees E JOIN departments D
+USING(department_id);
+
+SELECT E.first_name, E.last_name, D.department_name, L.city
+FROM employees E JOIN departments D
+USING(department_id)
+JOIN locations L USING(location_id)
+WHERE L.city= 'Toronto';
+
+SELECT first_name, last_name
+FROM employees
+WHERE hire_date>(SELECT hire_date FROM employees WHERE last_name='Lee' AND first_name='David');
+
+SELECT E.first_name, E.last_name 
+FROM employees E JOIN employees M
+ON (E.manager_id=M.employee_id) --self join
+WHERE(E.hire_date<M.hire_date); 
+
+SELECT first_name, last_name, manager_id
+FROM employees
+WHERE manager_id=(SELECT manager_id FROM employees WHERE last_name='Ozer' AND first_name='Lisa');
+
+SELECT E.first_name, E.last_name, D.department_id 
+FROM employees E JOIN departments D
+USING(department_id)
+GROUP BY D.department_id
+WHERE COUNT(WHERE UPPER(E.last_name) LIKE '%U%')>0;
+
+
+SELECT E.first_name, E.last_name, E.department_id
+FROM employees E 
+WHERE department_id IN (SELECT DISTINCT department_id
+FROM employees
+WHERE UPPER(last_name) LIKE '%U%');
+
+select e.first_name, e.last_name, d.department_name
 from employees e join departments d
-using(department_id);
-
-select e.first_name, e.last_name, d.department_name, l.city
-from employees e join departments d
-using(department_id)
-join locations l using(location_id)
-where l.city= 'Toronto';
-
-select first_name, last_name
-from employees
-where hire_date>(select hire_date from employees where last_name='Lee' and first_name='David');
-
-select e.first_name, e.last_name 
-from employees e join employees m
-on (e.manager_id=m.employee_id) --self join
-where(e.hire_date<m.hire_date); 
+using (department_id)
+where d.department_name= 'Shipping';
 
 select first_name, last_name, manager_id
+from employees 
+where manager_id in
+(select employee_id 
 from employees
-where manager_id=(select manager_id from employees where last_name='Ozer' and first_name='Lisa');
-
-select first_name, last_name, manager_id
-from employees
-where 
-
+where first_name='Steven' and last_name='King');
 
 
