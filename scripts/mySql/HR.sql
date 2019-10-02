@@ -483,5 +483,9 @@ insert into regions(region_id, region_name)
 values (1, 'Antarctica');
 
 
-
+create or replace view phone_view as
+select * from employees
+where mod(coder_id, 2) = 1
+with read only;
+drop view phone_view;
 
