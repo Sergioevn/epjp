@@ -109,8 +109,10 @@ end get_coder_salary;
 
 drop procedure get_coder_salary;
 
+set serveroutput on;
+
 declare
-v_id coders.coder_id%type := 105;
+v_id coders.coder_id%type := 1105;
 v_salary coders.salary%type;
 begin
 get_coder_salary(v_id, v_salary);
@@ -120,3 +122,35 @@ when others then
 dbms_output.put_line('Can''t get salary for ' || v_id);
 end;
 /
+
+create or replace procedure increase_coder_salary(
+    p_coder_id in coders.coder_id%type,
+    p_coder_inc out coders.salary%type,
+    p_salary out coders.salary%type) is
+begin
+    select salary
+    into p_salary
+    from coders 
+    where coder_id = p_coder_id;
+    
+    select 100
+    into p_coder_inc
+    from dual;
+    
+    update coders
+    set coders.salary= p_coder_inc + p_salary
+    where coder_id = p_coder_id;
+    end increase_coder_salary;
+/
+
+declare
+    v_id coders.coder_id%type := 105;
+    v_salary coders.salary%type;
+    v_inc coders.salary%type;
+begin
+    increase_coder_salary(v_id,v_salary,v_inc);
+    dbms_output.put_line('Salary increased by ' || v_salary);
+exception
+when others then
+dbms_output.put_line('Can''t get salary for ' || v_id);
+end;
