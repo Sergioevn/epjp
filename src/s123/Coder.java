@@ -40,6 +40,6 @@ public class Coder {
 
     @Override
     public String toString() {
-        return "[firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary + "]";
+        return "[Name= " + firstName + " " + lastName + ", Salary=" + salary + "]";
     }
 }
