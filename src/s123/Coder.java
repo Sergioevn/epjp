@@ -36,7 +36,7 @@ public class Coder {
 
     public int getSalary() {
         return salary;
-    }
+    }//
 
     @Override
     public String toString() {
