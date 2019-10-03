@@ -125,18 +125,14 @@ end;
 
 create or replace procedure increase_coder_salary(
     p_coder_id in coders.coder_id%type,
-    p_coder_inc out coders.salary%type,
+    p_coder_inc in coders.salary%type,
     p_salary out coders.salary%type) is
 begin
     select salary
     into p_salary
     from coders 
     where coder_id = p_coder_id;
-    
-    select 100
-    into p_coder_inc
-    from dual;
-    
+        
     update coders
     set coders.salary= p_coder_inc + p_salary
     where coder_id = p_coder_id;
@@ -146,11 +142,107 @@ begin
 declare
     v_id coders.coder_id%type := 105;
     v_salary coders.salary%type;
-    v_inc coders.salary%type;
+    v_inc coders.salary%type:=100;
 begin
-    increase_coder_salary(v_id,v_salary,v_inc);
-    dbms_output.put_line('Salary increased by ' || v_salary);
+    increase_coder_salary(v_id,v_inc,v_salary);
+    dbms_output.put_line('Salary of ID ' || v_id || '= ' || v_salary || ' € increased by ' || v_inc || ' €');
 exception
 when others then
-dbms_output.put_line('Can''t get salary for ' || v_id);
+    dbms_output.put_line('Can''t get salary for ' || v_id);
 end;
+
+
+create or replace function increase_salary(
+p_coder_id in coders.coder_id%type,
+p_coder_inc in coders.salary%type)
+return number as
+v_salary coders.salary%type;
+begin
+select salary
+into v_salary from coders
+where coder_id = p_coder_id;
+update coders
+    set coders.salary= p_coder_inc + v_salary
+    where coder_id = p_coder_id;
+ 
+return v_salary+p_coder_inc;
+end increase_salary;
+/
+
+
+commit;
+
+declare
+    v_id coders.coder_id%type := 105;
+    v_inc coders.salary%type:=200;
+    v_salary coders.salary%type;
+begin
+    v_salary := increase_salary(v_id,v_inc);
+     dbms_output.put_line('Salary of ID ' || v_id || ' increased to ' || v_salary || ' € --> + ' || v_inc || ' €');
+exception
+when others then
+    dbms_output.put_line('Can''t get salary for ' || v_id);
+end;
+
+commit;
+
+ALTER TABLE coders
+ADD CONSTRAINT coder_id PRIMARY KEY (coder_id);
+
+create table coder_salaries (
+coder_id number(6, 0)
+references coders(coder_id),
+old_salary number(8, 2),
+new_salary number(8, 2)
+);
+
+create or replace trigger salary_update
+before update of salary on coders
+for each row
+begin
+insert into coder_salaries values(
+:old.coder_id, :old.salary, :new.salary);
+end salary_update;
+/
+
+update coders
+set salary = salary * 1.3
+where coder_id > 103;
+
+commit;
+
+
+create or replace procedure get_coder(
+    p_coder_id in coders.coder_id%type,
+    p_first_name out coders.first_name%type,
+    p_last_name out coders.last_name%type) is
+begin
+    select first_name
+    into p_first_name
+    from coders
+    where oder_id=p_coder_id;
+    
+    select last_name
+    into p_last_name
+    from coders
+    where coder_id=p_coder_id;
+    dbms_output.put_line(p_last_name || ' ' || p_first_name);
+end get_coder;
+
+declare
+    v_id coders.coder_id%type := 105;
+    v_last_name coders.last_name%type;
+    v_first_name coders.first_name%type;
+begin
+
+    get_coder(v_id,v_first,v_last);
+    end;
+    
+    
+create or replace procedure tomorrow (
+p_name in varchar2)
+is
+    begin 
+    dbms_output.put_line('Tomorrow is ' || (sysdate +1) || ', dear ' || p_name);
+end tomorrow;
+/    
